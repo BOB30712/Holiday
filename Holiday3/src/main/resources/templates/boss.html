@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>主管頁面</title>
+<style type="text/css">
+	.fieldError{color: red;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+</head>>
+<body>
+
+<div class="container my-2">
+		<div th:include="header :: header"></div>
+		<h1>主管資料維護</h1>
+		<form action="#" 
+			  th:action="@{/boss/}" 
+			  th:object="${boss}"
+			  th:method="${_method}">
+			<div class="form_group">
+							<!-- id 隱藏欄位 -->
+				<input type="hidden" th:field="*{id}"/>
+				<label for="name">姓名：</label>
+				<input type="text" th:field="*{username}" class="form-control" />
+				<label for="name">登入密碼：</label>	
+				<input type="text" th:field="*{userpassword}" class="form-control" />	
+				<label for="name">部門類別：</label>	
+				<input type="text" th:field="*{Department}" class="form-control" />		
+			</div>
+			<br />
+			<input type="submit" th:value="${_method}" class="btn btn-primary" />
+		</form>
+		<p />
+		<h1>主管列表</h1>
+		<table border="1" class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>序號</th><th>員工姓名</th><th>密碼</th><th>部門</th><th>管理員工</th>
+					<th>編輯</th><th>刪除</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="b:${bosses}">
+					<td th:text="${b.id}"></td>
+					<td th:text="${b.username}"></td>
+					<td th:text="${b.userpassword}"></td>
+					<td th:text="${b.Department}"></td>
+					
+					<td>
+						<span th:each="emp:${b.employees}">
+							<a th:href="@{/boss/FullCalender/test/{id}(id=${emp.id})}"  th:text="${emp.username}"/>
+							&nbsp;
+						</span>
+					</td>
+					
+					</td>
+					<td>
+						<a th:href="@{/boss/{id}(id=${b.id})}">編輯</a>
+					</td>
+					<td>
+						<a th:href="@{/boss/delete/{id}(id=${b.id})}">刪除</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<title>請假申請</title>
+<style type="text/css">
+	.fieldError{color: red;}
+</style>
+
+</head>
+<body>
+
+<!-- 
+1.請假需要有代理人(代理人選項不會包含自己)(已完成)、主管同意
+2.請假成功後扣除特休時間
+3.請假能略過假日
+ -->
+
+	<div class="container my-2">
+		<div th:include="header :: header"></div>
+		<h1>請假表單</h1>
+		<form action="#"
+			  th:action="@{/holiday/}"
+			  th:object="${holiday}"
+			  th:method="${_method}">
+			  <div class="form_group">
+			  	<input type="hidden" th:field="*{id}"/>
+			  	<label for="name">開始日期</label>
+			  		<input type="date" 
+			  			th:value="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}"
+			  			th:field="*{starttime}" class="form-control"/>
+			  	<label for="name">結束日期</label>
+			  		<input type="date" 
+			  			th:value="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}"
+			  			th:field="*{endtime}" class="form-control"/>
+			  	<label for="name">申請員工</label>
+			  		<select class="form-control" th:field="${holiday.employee.id}">
+			  			<option th:each="e:${employees}" th:value="${e.id}" th:text="${e.username}"/>
+			  		</select>
+			  	<label for="name">請假類別:</label>
+			  		<input type="text" th:field="${holiday.type}" class="form-control" />
+			  		
+			  	<label for="name">原因:</label>
+			  		<input type="text" th:field="${holiday.reason}" class="form-control" />
+			  	
+			  	<label for="name">代理人:</label>
+			  		<select class="form-control" id="employee2" name="employee2">
+			  			<option th:each="e:${employees}" th:value="${e.id}" th:text="${e.username}"/>
+			  		</select>
+			  		<label for="name">代理人:</label>
+			  		<select class="form-control" id="boss" name="boss">
+			  			<option th:each="e:${bosses}" th:value="${e.id}" th:text="${e.username}"/>
+			  		</select>
+			  </div>
+				<br />
+			<input type="submit" th:value="${_method}" class="btn btn-primary" />
+		</form>
+		<P/>
+		<h1>請假列表</h1>
+		<table border="1" class="table table-striped table-responsive-md">
+			<thead>
+				<tr>
+					<th>序號</th><th>開始日期</th><th>結束日期</th><th>時數(Hour)</th><th>申請人</th>
+					<th>流程</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="h:${holidays}">
+					<td th:text="${h.id}"></td>
+					<td th:text="${h.starttime}"></td>
+					<td th:text="${h.endtime}"></td>
+					<td th:text="${h.hour}"></td>
+					<td th:text="${h.employee.username}"></td>
+					<td >
+						<span th:text="${h.results}" th:if="${h.results}!=null"></span>
+						<span th:unless="${h.results}!=null">未審核</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

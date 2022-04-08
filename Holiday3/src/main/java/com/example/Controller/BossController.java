@@ -74,7 +74,7 @@ public class BossController {
 	}
 	
 	@GetMapping("/FullCalender")
-	public String employeeindex() {
+	public String employeeindex(@Valid Long id) {
 		return "FullCalender";
 	}
 }

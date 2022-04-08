@@ -28,10 +28,10 @@ public class MyCalendarController {
 	@Autowired
 	private HolidayRepository holidayrepo;
 	
-	@GetMapping(value = {"/test"}) 
-	public List<CountCalendar> index(){
+	@GetMapping(value = {"/test/{id}"}) 
+	public List<CountCalendar> index(@PathVariable("id")Long id){
 		List<CountCalendar>ans1=new ArrayList<CountCalendar>();
-		List<Holiday> holiday=holidayrepo.findAll();
+		List<Holiday> holiday=holidayrepo.findEmployeename(id);
 			for(Holiday i:holiday) {
 				CountCalendar c=new CountCalendar();
 				c.setTitle(i.getReason());
@@ -40,19 +40,17 @@ public class MyCalendarController {
 				ans1.add(c);
 			}
 		return ans1;
-		/*
+		/*第一次測試
 		List<Holiday> holiday=holidayrepo.findAll();
 		List<Map<String, String>>ans1=new ArrayList<Map<String,String>>();
 		Map<String,String> ans2=new HashMap<String, String>();
 		Map<String,String> ans3=new HashMap<String, String>();
 		for(Holiday i:holiday) {
-			
 			ans2.put("title", i.getReason());
 			ans2.put("start", "2022-04-05");
 			ans2.put("end", "2022-05-10");
 			ans1.add(ans2);
 			ans2.clear();
-	
 		}
 		 ans2.put("title", "Event1");
 		 ans2.put("start", "2022-04-05");
@@ -62,7 +60,6 @@ public class MyCalendarController {
 		 ans3.put("start", "2022-04-01");
 		 ans3.put("end", "2022-04-10");
 		 ans1.add(ans3);
-		
 		return ans1;
 		*/
 	}

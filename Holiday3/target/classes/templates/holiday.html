@@ -13,7 +13,7 @@
 <body>
 
 <!-- 
-1.請假需要有代理人(代理人選項不會包含自己)(已完成)、主管同意
+1.請假需要有代理人(代理人選項不會包含自己)、主管同意
 2.請假成功後扣除特休時間
 3.請假能略過假日
  -->
@@ -28,12 +28,9 @@
 			  <div class="form_group">
 			  	<input type="hidden" th:field="*{id}"/>
 			  	<label for="name">開始日期</label>
-			  		<input type="date" 
-			  			th:value="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}"
-			  			th:field="*{starttime}" class="form-control"/>
+			  		<input type="datetime-local" th:field="*{starttime}" class="form-control"/>
 			  	<label for="name">結束日期</label>
-			  		<input type="date" 
-			  			th:value="${#dates.format(#dates.createNow(),'yyyy-MM-dd')}"
+			  		<input type="datetime-local" 
 			  			th:field="*{endtime}" class="form-control"/>
 			  	<label for="name">申請員工</label>
 			  		<select class="form-control" th:field="${holiday.employee.id}">
@@ -69,8 +66,8 @@
 			<tbody>
 				<tr th:each="h:${holidays}">
 					<td th:text="${h.id}"></td>
-					<td th:text="${h.starttime}"></td>
-					<td th:text="${h.endtime}"></td>
+					<td th:text="${#dates.format(h.starttime,'yyyy-MM-dd HH:mm')}"></td>
+					<td th:text="${#dates.format(h.endtime,'yyyy-MM-dd HH:mm')}"></td>
 					<td th:text="${h.hour}"></td>
 					<td th:text="${h.employee.username}"></td>
 					<td >

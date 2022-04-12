@@ -30,16 +30,26 @@ public class Holiday {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	/*
+	 修改內容:1.存入MySQL的日期資料要為日期+時間
+	 		2.從資料庫取出的資料一樣為日期+時間
+	 		
+	 原先程式標記:
+			@Column
+			@Temporal(TemporalType.DATE)
+			@DateTimeFormat(pattern = "yyyy-MM-dd")
+			@JsonFormat(pattern = "yyyy-MM-dd")
+			private Date starttime;
+	 */
+	
 	@Column
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date starttime;
 	
 	@Column
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date endtime;
 	
 	@ManyToOne

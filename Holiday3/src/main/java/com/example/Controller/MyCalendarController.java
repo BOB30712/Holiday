@@ -1,5 +1,7 @@
 package com.example.Controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +36,12 @@ public class MyCalendarController {
 		List<Holiday> holiday=holidayrepo.findEmployeename(id);
 			for(Holiday i:holiday) {
 				CountCalendar c=new CountCalendar();
-				c.setTitle(i.getReason());
-				c.setStart(i.getStarttime());
-				c.setEnd(i.getEndtime());
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+				c.setTitle(sdf2.format(i.getStarttime())+" - "+
+						sdf2.format(i.getEndtime())+" 原因:"+i.getReason());
+				c.setStart(sdf1.format(i.getStarttime()));
+				c.setEnd(sdf1.format(i.getEndtime()));
 				ans1.add(c);
 			}
 		return ans1;

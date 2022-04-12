@@ -1,5 +1,9 @@
 package com.example.Controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,9 +74,14 @@ public class HolidayController {
 			model.addAttribute("bosses",bossrepo.findAll());
 			return "holiday";
 		}
+		/* 測試entity 日期設定是否有問題->可以直接從後端設定開始&結束日期
+		Date datetest=new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		holiday.setStarttime(sdf.parse("2022-03-14 08:00"));
+		holiday.setEndtime(sdf.parse("2022-03-14 17:00"));
+		*/
+		
 		//將新增表單的內容傳到資料庫儲存
-		
-		
 		holidayrepo.save(holiday);
 		
 		return "redirect:./";

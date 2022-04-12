@@ -46,7 +46,7 @@
 			  		<select class="form-control" id="employee2" name="employee2">
 			  			<option th:each="e:${employees}" th:value="${e.id}" th:text="${e.username}"/>
 			  		</select>
-			  		<label for="name">代理人:</label>
+			  		<label for="name">主管:</label>
 			  		<select class="form-control" id="boss" name="boss">
 			  			<option th:each="e:${bosses}" th:value="${e.id}" th:text="${e.username}"/>
 			  		</select>

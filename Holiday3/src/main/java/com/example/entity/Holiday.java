@@ -1,5 +1,8 @@
 package com.example.entity;
 
+import java.time.Duration;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +24,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+
 
 @Entity
 @Table(name = "holiday")
@@ -77,14 +82,13 @@ public class Holiday {
 
 	public Integer getHour() {
 		/*
-		 	Long time=endtime.getTime()-starttime.getTime();
-			TimeUnit tt=TimeUnit.HOURS;
-			Long ans=tt.convert(time,TimeUnit.MILLISECONDS);
-		
-			return ans;
-		
+		 修改原先計算兩個DATE之間的時間(HOUR)，並扣除包含假日的時間
+		 ->計算時間差改用Duration，原方法計算假日天數並扣除
+		 
+		 待處理:工作時間應為07:00~17:00、且扣除員工休息時間&午餐時間
+		       目前計算為24小時制
 		 */
-		Integer ans=0;
+		Integer NationalHoliday=0;
 		Date starttime2=starttime;
 		Calendar calendar=Calendar.getInstance();
 		
@@ -92,13 +96,18 @@ public class Holiday {
 		while(starttime2.getTime()<=endtime.getTime()) {
 			calendar.add(Calendar.DAY_OF_YEAR, 1);
 			starttime2=calendar.getTime();
-			 if(calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY && 
-					 calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
-				 ans++;
+			 if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ||
+					 calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+				 NationalHoliday++;
 			 }
 		}
 		
-		return ans*24;
+		// 使用Duration類別計算時間差，把原本date類別轉成localdate
+		Duration d=Duration.between(starttime.toInstant().atZone(ZoneId.systemDefault()).toInstant(),
+				endtime.toInstant().atZone(ZoneId.systemDefault()).toInstant());
+		int ans=(int)d.toHours();
+		
+		return ans-(NationalHoliday*24);
 	}
 	
 	

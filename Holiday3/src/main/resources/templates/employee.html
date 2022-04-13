@@ -58,12 +58,12 @@
 			<thead>
 				<tr>
 					<th>序號</th><th>員工姓名</th><th>密碼</th><th>部門</th><th>工作</th><th>主管</th>
-					<th>剩餘特休</th><th>編輯</th><th>刪除</th>
+					<th>剩餘特休(Hour)</th><th>編輯</th><th>刪除</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="emp:${employees}">
-					<td th:text="${emp.id}"></td>
+					<td th:text="${empStat.index+1}"></td>
 					<td th:text="${emp.username}"></td>
 					<td th:text="${emp.userpassword}"></td>
 					<td th:text="${emp.Department}"></td>

@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Period;
 import java.time.ZoneId;
@@ -88,26 +89,46 @@ public class Holiday {
 		 待處理:工作時間應為07:00~17:00、且扣除員工休息時間&午餐時間
 		       目前計算為24小時制
 		 */
+		SimpleDateFormat dtf = new SimpleDateFormat("HH");//"HH" 設定為24小時制
 		Integer NationalHoliday=0;
+		Integer RestTime=0;
 		Date starttime2=starttime;
+		Date starttime3=starttime;
 		Calendar calendar=Calendar.getInstance();
-		
+		//計算假日總數
 		calendar.setTime(starttime2);
 		while(starttime2.getTime()<=endtime.getTime()) {
 			calendar.add(Calendar.DAY_OF_YEAR, 1);
 			starttime2=calendar.getTime();
+			//確認日期是否為星期六或星期日，一旦符合把計算假日天數加+1
 			 if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ||
 					 calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
 				 NationalHoliday++;
 			 }
 		}
 		
-		// 使用Duration類別計算時間差，把原本date類別轉成localdate
-		Duration d=Duration.between(starttime.toInstant().atZone(ZoneId.systemDefault()).toInstant(),
-				endtime.toInstant().atZone(ZoneId.systemDefault()).toInstant());
+		//計算休息時間總數
+		calendar.setTime(starttime3);
+		while(starttime3.getTime()<=endtime.getTime()) {
+			//每次增加1小時
+			calendar.add(calendar.HOUR_OF_DAY, 1);
+			starttime3=calendar.getTime();
+			//判別是否增加至13點(經過中午12點)、18點(晚上下班時間)
+			//還需要判定是否為假日避免重複扣除時間
+			if(dtf.format(starttime3).equals("13")&&calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY
+					&& calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY){
+				RestTime++;
+		        }else if(dtf.format(starttime3).equals("19")&&calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY
+						&& calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY){
+		        	RestTime=RestTime+15;
+		        }
+		}
+		
+		// 使用Duration類別計算時間差
+		Duration d=Duration.between(starttime.toInstant(),endtime.toInstant());
 		int ans=(int)d.toHours();
 		
-		return ans-(NationalHoliday*24);
+		return ans-(NationalHoliday*24)-RestTime;
 	}
 	
 	

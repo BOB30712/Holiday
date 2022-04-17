@@ -27,6 +27,8 @@ public class MyCalendarController {
 	@Autowired
 	private MyCalendarRepository calendarRepo;
 	
+	private Integer count=0;
+	
 	@Autowired
 	private HolidayRepository holidayrepo;
 	
@@ -68,5 +70,18 @@ public class MyCalendarController {
 		return ans1;
 		*/
 	}
+	
+	@GetMapping(value = {"/JQuery"}) 
+	public String Jquery() {
+		return "JQuery測試成功";
+	}
+	
+	@GetMapping(value = {"/JQuery2"}) 
+	public Integer Jquery2() {
+		count++;
+		return count;
+	}
+	
+	
 	
 }

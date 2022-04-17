@@ -4,23 +4,63 @@
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <title>假日系統首頁</title>
 <style type="text/css">
 	.fieldError{color: red;}
 </style>
+<script>
+$(document).ready(function(){
+	  $("button").click(function(){
+	  $("#test").toggle();
+	  });
+
+	$("#test2").click(function(){
+    	$.get("http://localhost:8081/Holiday/boss/FullCalender/JQuery",function(data,status){
+      	alert("資料：" + data + "\n狀態：" + status);
+    	});
+  	});
+	
+	addcount();
+});
+	
+	function addcount(){
+		$.get("http://localhost:8081/Holiday/boss/FullCalender/JQuery2",function(data,status){
+				console.log(data);
+				var html="您是第"+data+"位顧客";
+	      		
+	      		$('#test3').append(html);
+	    	});
+	}
+	
+</script>
 
 </head>
 <body>
-	<div class="container my-2">
-		<img th:src="@{/image/test.png}" src="" width="1000" height="400"/>
 	</div>
 	<div class="container my-2">
-	<div th:include="header :: header"></div>
-		<h1>歡迎光臨</h1><br />
-		<p>這是目前臨時的首頁，下列會簡單說明網站使用方式</p><br />
-		<p>第一點，可以輸入主管(boss)&員工(employee)相關屬性來增加目前的資料</p><br />
-		<p>第二點，上方列表中的請假申請再輸入完請假資料後需要透過審核才會扣除該員工休息時數</p><br />
-		<p>第三點，請假審核部分只能主管登入，另外預設的boss1以及boss2的密碼皆為123</p><br />
+	<div th:include="header :: header"></div><br />
+		<div class="row g-3">
+			<div class="col-md-9">
+			<h1>歡迎光臨</h1><br />
+			<p th:text="您是第+${number}+點入這個首頁的人">123</p><br/>
+			<p>下列會簡單說明網站使用方式:</p><br />
+			<p>第一點，可以輸入主管(boss)&員工(employee)相關屬性來增加目前的資料</p><br />
+			<p>第二點，上方列表中的請假申請再輸入完請假資料後需要透過審核才會扣除該員工休息時數</p><br />
+			<p>第三點，請假審核部分只能主管登入，另外預設的boss1以及boss2的密碼皆為123</p><br />
+			<p>第四點，主管頁面能點擊員工連結檢視員工休假時段</p><br/>
+			<p id="test3"></p><br/>
+			<p id="test">測試JQuery成功</p>
+			<button type="button">測試JQuery</button>
+			<button type="button" id="test2">測試JQuery2</button>
+			</div>
+			<div class="col-md-3">
+			<img th:src="@{/image/test.png}" src="" width="300" height="400"/>
+			</div>
+		</div>
+	</div>
+	<div class="container my-2">
+		<img th:src="@{/image/calendar.png}" src="" width="1000" height="400"/>
 	</div>
 </body>
 </html>

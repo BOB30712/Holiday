@@ -22,6 +22,7 @@ $(document).ready(function(){
   	});
 	
 	addcount();
+	countdate();
 });
 	
 	function addcount(){
@@ -30,6 +31,15 @@ $(document).ready(function(){
 				var html="您是第"+data+"位顧客";
 	      		
 	      		$('#test3').append(html);
+	    	});
+	}
+	
+	function countdate(){
+		$.get("http://localhost:8081/Holiday/boss/FullCalender/JQuery3",function(data,status){
+				console.log(data);
+				var html="伺服器啟動時間是: "+data[1]+"   count計數器: "+data[0];
+	      		
+	      		$('#test5').append(html);
 	    	});
 	}
 	
@@ -50,6 +60,7 @@ $(document).ready(function(){
 			<p>第三點，請假審核部分只能主管登入，另外預設的boss1以及boss2的密碼皆為123</p><br />
 			<p>第四點，主管頁面能點擊員工連結檢視員工休假時段</p><br/>
 			<p id="test3"></p><br/>
+			<p id="test5"></p><br/>
 			<p id="test">測試JQuery成功</p>
 			<button type="button">測試JQuery</button>
 			<button type="button" id="test2">測試JQuery2</button>

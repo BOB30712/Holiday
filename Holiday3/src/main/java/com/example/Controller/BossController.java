@@ -54,10 +54,12 @@ public class BossController {
 			model.addAttribute("bosses",bossrepo.findAll());
 			return "boss";
 		}
-		//將新增表單的內容傳到資料庫儲存
+		/*
+		 * 採用BCryptPasswordEncoder加密時，將預設密碼加密後再存入資料庫
 		BCryptPasswordEncoder encode=new BCryptPasswordEncoder();
 		String newPassword=encode.encode(boss.getUserpassword());
 		boss.setUserpassword(newPassword);
+		*/
 		bossrepo.save(boss);
 		return "redirect:./";
 	}

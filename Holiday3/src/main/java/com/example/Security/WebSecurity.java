@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+
+
 
 
 
@@ -22,16 +25,23 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 		return new BossDetailServiceImpl();
 	}
 	
+	//加密
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	//不加密
+	@Bean
+	public static NoOpPasswordEncoder passwordEncoder2() {
+	 return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
 	}
 	
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
 		authenticationProvider.setUserDetailsService(userDetailsService());
-		authenticationProvider.setPasswordEncoder(passwordEncoder() );
+		authenticationProvider.setPasswordEncoder(passwordEncoder2() );
 		return authenticationProvider;
 	}
 	

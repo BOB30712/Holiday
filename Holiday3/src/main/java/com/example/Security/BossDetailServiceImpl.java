@@ -17,7 +17,7 @@ public class BossDetailServiceImpl implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Boss boss=bossrepo.getUserByUsername(username);
 		if(boss==null) {
-			throw new UsernameNotFoundException("Could not fing user");
+			throw new UsernameNotFoundException("Could not find user");
 		}
 		return new BossDetails(boss);
 	}

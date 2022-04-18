@@ -3,6 +3,7 @@ package com.example.Controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ public class MyCalendarController {
 	private MyCalendarRepository calendarRepo;
 	
 	private Integer count=0;
+	
+	private Date date=new Date();
 	
 	@Autowired
 	private HolidayRepository holidayrepo;
@@ -80,6 +83,15 @@ public class MyCalendarController {
 	public Integer Jquery2() {
 		count++;
 		return count;
+	}
+	
+	@GetMapping(value = {"/JQuery3"}) 
+	public List<String> Jquery3() {
+		List<String> list=new ArrayList<>();
+		list.add(Integer.toString(count));
+		SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		list.add(dtf.format(date));
+		return list;
 	}
 	
 	

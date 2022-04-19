@@ -40,14 +40,18 @@ public class MyCalendarController {
 		List<CountCalendar>ans1=new ArrayList<CountCalendar>();
 		List<Holiday> holiday=holidayrepo.findEmployeename(id);
 			for(Holiday i:holiday) {
-				CountCalendar c=new CountCalendar();
-				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-				SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
-				c.setTitle(sdf2.format(i.getStarttime())+" - "+
-						sdf2.format(i.getEndtime())+" 原因:"+i.getReason());
-				c.setStart(sdf1.format(i.getStarttime()));
-				c.setEnd(sdf1.format(i.getEndtime()));
-				ans1.add(c);
+				if(i.getResults()!=null) {
+					if(i.getResults().equals("同意")) {
+						CountCalendar c=new CountCalendar();
+						SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+						c.setTitle(sdf2.format(i.getStarttime())+" - "+
+								sdf2.format(i.getEndtime())+" 原因:"+i.getReason());
+						c.setStart(sdf1.format(i.getStarttime()));
+						c.setEnd(sdf1.format(i.getEndtime()));
+						ans1.add(c);
+					}
+				}
 			}
 		return ans1;
 		/*第一次測試
@@ -94,6 +98,18 @@ public class MyCalendarController {
 		return list;
 	}
 	
+	/*
+	 * 	網站上JQuery程式碼
+	@GetMapping(value = {"/JQuery"}) 
+	public List<String> Jquery() {
+		List<String> time=new ArrayList<>();
+		time.add(Integer.toString(count));
+		SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		time.add(dtf.format(date));
+		count++;
+		return time;
+	}
+	 */
 	
 	
 }

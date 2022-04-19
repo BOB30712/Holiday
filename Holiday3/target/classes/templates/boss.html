@@ -50,7 +50,8 @@
 					
 					<td>
 						<span th:each="emp:${b.employees}">
-							<a th:href="@{/bmployee/{id}(id=${emp.id})}"  th:text="${emp.username}"/>
+							<a th:href="@{/employee/{id}(id=${emp.id})}"  th:text="${emp.username}"
+							 data-toggle="tooltip" title="修改員工資料"/>
 							&nbsp;
 						</span>
 					</td>
@@ -78,7 +79,8 @@
 					<td th:text="${b.username}"></td>
 					<td>
 						<span th:each="emp:${b.employees}">
-							<a th:href="@{/boss/FullCalender?id={id}(id=${emp.id})}"  th:text="${emp.username}"/>
+							<a th:href="@{/boss/FullCalender?id={id}(id=${emp.id})}"  th:text="${emp.username}"
+							 data-toggle="tooltip" title="確認休假日期"/>
 							&nbsp;
 						</span>
 					</td>

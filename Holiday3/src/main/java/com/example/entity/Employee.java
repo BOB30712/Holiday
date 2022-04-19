@@ -1,5 +1,8 @@
 package com.example.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -35,6 +39,21 @@ public class Employee {
 	
 	@Column
 	private Integer paidleave;
+	
+	
+	//刪除員工資料時，連帶刪除休假資料
+	@OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "employee")
+	private Set<Holiday> Holidays;
+
+	
+	
+	public Set<Holiday> getHolidays() {
+		return Holidays;
+	}
+
+	public void setHolidays(Set<Holiday> holidays) {
+		Holidays = holidays;
+	}
 
 	public Integer getPaidleave() {
 		return paidleave;

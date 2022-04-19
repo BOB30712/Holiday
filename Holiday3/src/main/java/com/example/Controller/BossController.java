@@ -15,34 +15,35 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.Repository.BossRepository;
+import com.example.Service.impl.BossServiceImpl;
 import com.example.entity.Boss;
 import com.example.entity.Employee;
 
 @Controller
 @RequestMapping("/boss")
 public class BossController {
-
+	
 	@Autowired
-	private BossRepository bossrepo;
-
+	private BossServiceImpl bossservice;
+	
 	@RequestMapping("/")
 	public String index(Model model,@ModelAttribute Boss boss) {
 		model.addAttribute("_method","POST");
-		model.addAttribute("bosses",bossrepo.findAll());
+		model.addAttribute("bosses",bossservice.getAllBoss());
 		return "boss";
 	}
 	
 	@GetMapping("/{id}")
 	public String get(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("_method", "PUT");
-		model.addAttribute("boss", bossrepo.getById(id));
-		model.addAttribute("bosses",bossrepo.findAll());
+		model.addAttribute("boss", bossservice.getBossId(id));
+		model.addAttribute("bosses",bossservice.getAllBoss());
 		return "boss";
 	}
 	
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable("id") Long id) {
-		bossrepo.deleteById(id);
+		bossservice.deteleBoss(id);
 		return "redirect:../";
 	}
 	
@@ -51,7 +52,7 @@ public class BossController {
 		//一旦傳出錯誤，返回原先頁面
 		if(result.hasErrors()) {
 			model.addAttribute("_method","POST");
-			model.addAttribute("bosses",bossrepo.findAll());
+			model.addAttribute("bosses",bossservice.getAllBoss());
 			return "boss";
 		}
 		/*
@@ -60,7 +61,7 @@ public class BossController {
 		String newPassword=encode.encode(boss.getUserpassword());
 		boss.setUserpassword(newPassword);
 		*/
-		bossrepo.save(boss);
+		bossservice.saveBoss(boss);
 		return "redirect:./";
 	}
 	
@@ -68,10 +69,10 @@ public class BossController {
 	public String update(@Valid @ModelAttribute Boss boss, BindingResult result, Model model) {
 		if(result.hasErrors()) {
 			model.addAttribute("_method", "PUT");
-			model.addAttribute("bosses",bossrepo.findAll());
+			model.addAttribute("bosses",bossservice.getAllBoss());
 			return "boss";
 		}
-		bossrepo.save(boss);
+		bossservice.updateBoss(boss,boss.getId());
 		return "redirect:./";
 	}
 	

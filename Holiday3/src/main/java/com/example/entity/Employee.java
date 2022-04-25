@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="Employee")
 public class Employee {
@@ -35,6 +38,7 @@ public class Employee {
 	
 	@ManyToOne
 	@JoinColumn(name="boss_id")
+	@JsonIgnoreProperties("employees")
 	private Boss boss;
 	
 	@Column
@@ -43,6 +47,7 @@ public class Employee {
 	
 	//刪除員工資料時，連帶刪除休假資料
 	@OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "employee")
+	@JsonIgnore
 	private Set<Holiday> Holidays;
 
 	

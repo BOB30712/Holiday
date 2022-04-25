@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="boss")
 public class Boss {
@@ -31,6 +33,7 @@ public class Boss {
 	
 	@OneToMany(mappedBy = "boss")
 	@OrderBy("id ASC")
+	@JsonIgnoreProperties("boss")
 	private Set<Employee> employees=new LinkedHashSet<Employee>();
 
 	public Long getId() {

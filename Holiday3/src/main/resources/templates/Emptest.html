@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>員工頁面(測試中)</title>
+<style type="text/css">
+	.fieldError{color: red;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+<script>
+$(document).ready(function(){
+	Empdata();
+});
+
+function Empdata(){
+	$.get("http://localhost:8081/Holiday/EmployeeController2/",function(datas,status){
+			console.log(datas);
+			var html=datas;
+      		
+			$.each(datas, function(i, item) {
+				var html = "<tr><td>"+item.id+"</td><td>"+item.username+"</td><td>"+
+				item.boss.username+"</td></tr>";
+				$("#test").append(html);
+			});
+    	});
+}
+</script>
+
+</head>
+<body>
+	<h1>測試成功</h1>
+	<table id="test" border="1">
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>name</th>
+				<th>boss</th>	
+			</tr>
+		</thead>
+			<tbody>
+			</tbody>
+	</table>
+</body>
+</html>

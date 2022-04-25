@@ -80,4 +80,9 @@ public class BossController {
 	public String employeeindex(@Valid Long id) {
 		return "FullCalender";
 	}
+	
+	@RequestMapping("/Emptest")
+	public String Emptest() {
+		return "Emptest";
+	}
 }

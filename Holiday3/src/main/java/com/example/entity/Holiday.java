@@ -26,6 +26,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 
@@ -61,15 +63,18 @@ public class Holiday {
 	
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
+	@JsonIgnore
 	private Employee employee;
 	
 	@ManyToOne
 	@JoinColumn(name="employee_id2")
+	@JsonIgnore
 	@NotNull
 	private Employee employee2;
 	
 	@ManyToOne
 	@JoinColumn(name="boss_id")
+	@JsonIgnore
 	private Boss boss;
 	
 	@Column

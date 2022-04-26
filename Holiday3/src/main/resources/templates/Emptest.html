@@ -11,18 +11,105 @@
 
 <script>
 $(document).ready(function(){
+	$("#add").on("click",function(){
+		var name=$('#username').val();
+		var bossid=$('#boss').val();
+		var jsonStr=JSON.stringify({'username': name,'bossid':bossid});
+		console.log(jsonStr);
+		$.ajax({
+			url: "http://localhost:8081/Holiday/EmployeeController2/",
+			type: "POST",
+			contentType: "application/json;charset=utf-8",
+			data: jsonStr,
+			cache: false,
+			success: function() {
+				alert("成功");
+				console.log(jsonStr);
+				Empdata();
+				Bossdata();
+			},
+			error: function(err) {
+				alert("錯誤");
+			}
+		});
+	});
+	
+	
+	$("#update").on("click", function() {
+		var name=$('#username').val();
+		var bossid=$('#boss').val();
+		var id=$('#id').val();
+		var jsonStr=JSON.stringify({'username': name,'bossid':bossid});
+		console.log(jsonStr);
+		$.ajax({
+			url: "http://localhost:8081/Holiday/EmployeeController2/update/"+id,
+			type: "PUT",
+			contentType: "application/json;charset=utf-8",
+			data: jsonStr,
+			cache: false,
+			success: function() {
+				alert("成功");
+				console.log(jsonStr);
+				Empdata();
+				Bossdata();
+			},
+			error: function(err) {
+				alert("錯誤");
+			}
+		});
+	});	
+	
+	$('#add').attr('disabled', false);
+	$('#update').attr('disabled', true);
+	$('#delete').attr('disabled', true);
 	Empdata();
+	Bossdata();
+	$("#test").on("click", "tr", function(){
+		var id = $(this).find('td').eq(0).text().trim();
+		console.log(id);
+		var url = "http://localhost:8081/Holiday/EmployeeController2/" + id;
+		$.get(url, function(data, status) {
+			console.log(JSON.stringify(data));
+			$('#add').attr('disabled', true);
+			$('#update').attr('disabled', false);
+			$('#delete').attr('disabled', false);
+			$("#myform").trigger('reset'); // 表單內容清空（重置）
+			// 將資料配置到表單
+			$("#myform").find("#id").val(data.id);
+			$("#myform").find("#username").val(data.username);
+			$("#myform").find("#boss").val(data.boss.id);
+		});
+		});
+	/*
+	$("#test").on("click", "#delete2", function(){
+		alert("測試刪除成功");
+		});
+	*/
 });
+
 
 function Empdata(){
 	$.get("http://localhost:8081/Holiday/EmployeeController2/",function(datas,status){
 			console.log(datas);
 			var html=datas;
-      		
+			var update2="update2";
+			var delete2="delete2";
+			$("#test tbody > tr").remove();
 			$.each(datas, function(i, item) {
 				var html = "<tr><td>"+item.id+"</td><td>"+item.username+"</td><td>"+
-				item.boss.username+"</td></tr>";
+				item.boss.username+"</td><td><button id="+update2+" type='button'>編輯</button></td></tr>";
 				$("#test").append(html);
+			});
+    	});
+}
+function Bossdata(){
+	$.get("http://localhost:8081/Holiday/EmployeeController2/boss",function(datas,status){
+			console.log(datas);
+			var html=datas;
+			$("#boss option").remove();
+			$.each(datas, function(i, item) {
+				var html = "<option value="+ item.id+">"+item.username+"</option>";
+				$("#boss").append(html);
 			});
     	});
 }
@@ -31,12 +118,26 @@ function Empdata(){
 </head>
 <body>
 	<h1>測試成功</h1>
+	<div>
+		<form id="myform">
+			<input type="hidden" id="id" name="id"/>
+			<label>新增員工名字:</label>
+				<input id="username" name="username" type="text"><br><br>
+			<label>主管名稱:</label>
+				<select id="boss"></select>	<br><br>
+			<button id="add" type="button">新增</button>
+			<button id="update" type="button">更新</button>
+			<button id="delete" type="button">刪除</button>
+		</form>
+	</div>
+	<br>
 	<table id="test" border="1">
 		<thead>
 			<tr>
 				<th>id</th>
 				<th>name</th>
 				<th>boss</th>	
+				<th>edit</th>
 			</tr>
 		</thead>
 			<tbody>

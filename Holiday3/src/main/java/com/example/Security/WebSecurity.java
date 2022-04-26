@@ -59,7 +59,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter{
 			.httpBasic() //產生基本表單
 			.and()
 			.logout()
-			.logoutSuccessUrl("/holiday/");
+			.logoutSuccessUrl("/holiday/")
+			.and()
+			.cors().and().csrf().disable();//禁用 csrf 使POST 請求成功！#非常重要
 	}
 	protected void configure(AuthenticationManagerBuilder auth)
 			throws Exception {

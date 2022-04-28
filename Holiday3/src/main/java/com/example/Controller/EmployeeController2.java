@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,5 +72,11 @@ public class EmployeeController2 {
 		employee.setBoss(bossservice.getBossId(bossid));
 		employeeservice.saveEmployee(employee);
 	}
+	
+	@DeleteMapping("/delete/{id}")
+	public void deleteEmp(@PathVariable("id") Long id){
+		employeeservice.deteleEmployee(id);
+	}
+	
 
 }

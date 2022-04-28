@@ -48,22 +48,33 @@ $(document).ready(function(){
 			data: jsonStr,
 			cache: false,
 			success: function() {
-				alert("成功");
+				alert("更新成功");
 				console.log(jsonStr);
-				Empdata();
-				Bossdata();
+				PageRest();
 			},
 			error: function(err) {
-				alert("錯誤");
+				alert("更新錯誤");
 			}
 		});
 	});	
 	
-	$('#add').attr('disabled', false);
-	$('#update').attr('disabled', true);
-	$('#delete').attr('disabled', true);
-	Empdata();
-	Bossdata();
+	$("#delete").on("click", function() {
+		var id=$('#id').val();
+		$.ajax({
+			url: "http://localhost:8081/Holiday/EmployeeController2/delete/"+id,
+			type: "DELETE",
+			success: function() {
+				alert("刪除成功");
+				PageRest();
+			},
+			error: function(err) {
+				alert("刪除錯誤");
+			}
+		});
+	});	
+	
+	PageRest();
+	
 	$("#test").on("click", "tr", function(){
 		var id = $(this).find('td').eq(0).text().trim();
 		console.log(id);
@@ -87,17 +98,25 @@ $(document).ready(function(){
 	*/
 });
 
+function PageRest(){
+	$('#add').attr('disabled', false);
+	$('#update').attr('disabled', true);
+	$('#delete').attr('disabled', true);
+	$('#myform').trigger('reset');
+	Empdata();
+	Bossdata();
+}
+
 
 function Empdata(){
 	$.get("http://localhost:8081/Holiday/EmployeeController2/",function(datas,status){
 			console.log(datas);
 			var html=datas;
-			var update2="update2";
-			var delete2="delete2";
+			var edit="edit";
 			$("#test tbody > tr").remove();
 			$.each(datas, function(i, item) {
 				var html = "<tr><td>"+item.id+"</td><td>"+item.username+"</td><td>"+
-				item.boss.username+"</td><td><button id="+update2+" type='button'>編輯</button></td></tr>";
+				item.boss.username+"</td><td><button id="+edit+" type='button'>編輯</button></td></tr>";
 				$("#test").append(html);
 			});
     	});

@@ -81,8 +81,15 @@ public class BossController {
 		return "FullCalender";
 	}
 	
+	
+	
 	@RequestMapping("/Emptest")
 	public String Emptest() {
 		return "Emptest";
+	}
+	
+	@RequestMapping("/boss2")
+	public String boss2() {
+		return "boss2";
 	}
 }
